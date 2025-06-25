@@ -9,19 +9,20 @@ interface DetailsStepProps {
     title: string;
     author: string;
     genre: string;
-    pages: number;
+    pages: number | "";
   };
   setFormData: {
     setTitle: (val: string) => void;
     setAuthor: (val: string) => void;
     setGenre: (val: string) => void;
-    setPages: (val: number) => void;
+    setPages: (val: number | "") => void;
   };
 }
 
 const DetailsStep: React.FC<DetailsStepProps> = ({ uploadMode, uploadedImage, handleFileUpload, formData, setFormData }) => {
   return (
     <div className="flex flex-col md:flex-row gap-8">
+      {/* Sisi Kiri - Area Unggah atau Sampul Buku */}
       <div className="flex-shrink-0 w-full md:w-64">
         {uploadedImage ? (
           <img src={uploadedImage} alt="Book cover" className="w-full h-auto md:w-64 md:h-80 object-cover rounded-lg shadow-lg mx-auto" />
@@ -40,6 +41,7 @@ const DetailsStep: React.FC<DetailsStepProps> = ({ uploadMode, uploadedImage, ha
         )}
       </div>
 
+      {/* Sisi Kanan - Form Detail Buku */}
       <div className="flex-1 space-y-4">
         <div>
           <label className="block text-gray-700 font-medium mb-2">Judul</label>
@@ -55,7 +57,22 @@ const DetailsStep: React.FC<DetailsStepProps> = ({ uploadMode, uploadedImage, ha
         </div>
         <div>
           <label className="block text-gray-700 font-medium mb-2">Jumlah halaman</label>
-          <input type="number" value={formData.pages} onChange={(e) => setFormData.setPages(Number(e.target.value))} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" />
+          <input
+            type="number"
+            value={formData.pages}
+            onChange={(e) => {
+              const value = e.target.value;
+              // Mengizinkan input kosong, jika tidak, ubah menjadi angka
+              const newPageValue = value === "" ? "" : parseInt(value, 10);
+              // Pastikan nilai yang di-set adalah number atau string kosong
+              if (!isNaN(newPageValue as number)) {
+                setFormData.setPages(newPageValue);
+              }
+            }}
+            onFocus={(e) => e.target.select()}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+            placeholder="0"
+          />
         </div>
         <p className="text-sm text-gray-500 italic">*Edit jika tidak sesuai</p>
       </div>

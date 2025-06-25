@@ -24,7 +24,7 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ isOpen, onClose, onAddBook 
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [genre, setGenre] = useState("");
-  const [pages, setPages] = useState(0);
+  const [pages, setPages] = useState<number | "">(0);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState("");
 
@@ -145,7 +145,7 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ isOpen, onClose, onAddBook 
       title,
       author,
       genre,
-      pages,
+      pages: Number(pages) || 0,
       coverImage: uploadedImage,
     };
     onAddBook(newBook);
