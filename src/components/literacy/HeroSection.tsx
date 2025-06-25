@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import Navigation from "@/components/literacy/Navigation";
-import HeroContent from "@/components/literacy/HeroContent";
-import AddBookCard from "@/components/literacy/AddBookCard";
-import AddBookModal from "@/components/literacy/AddBookModal/AddBookModal";
-import BookCollection from "@/components/literacy/BookCollection";
+import Navigation from "./Navigation";
+import HeroContent from "./HeroContent";
+import AddBookCard from "./AddBookCard";
+import AddBookModal from "./AddBookModal/AddBookModal";
+import BookCollection from "./BookCollection";
 import type { Book } from "@/index";
 
 // Komponen Induk Utama yang mengatur tampilan
@@ -19,9 +19,14 @@ export default function LiteracyLanding() {
     setView("collection");
   };
 
-  // Fungsi baru untuk kembali ke landing page
+  // Fungsi untuk kembali ke landing page
   const handleGoToLanding = () => {
     setView("landing");
+  };
+
+  // Fungsi untuk pergi ke halaman koleksi
+  const handleGoToCollection = () => {
+    setView("collection");
   };
 
   const openModal = () => setIsModalOpen(true);
@@ -29,7 +34,7 @@ export default function LiteracyLanding() {
   // Render konten berdasarkan state 'view'
   const renderContent = () => {
     if (view === "collection") {
-      // Melewatkan fungsi handleGoToLanding sebagai prop onGoBack
+      // Melewatkan fungsi onGoBack dan onNavigateToCollection
       return <BookCollection books={books} onAddNewBook={openModal} onGoBack={handleGoToLanding} />;
     }
 
@@ -39,9 +44,9 @@ export default function LiteracyLanding() {
         <div className="absolute inset-0 bg-cover bg-center -z-10" style={{ backgroundImage: "url('/images/bg-nature.jpg')" }}>
           <div className="absolute inset-0 bg-black/10"></div>
         </div>
-        <Navigation />
+        <Navigation onNavigateToHome={handleGoToLanding} onNavigateToCollection={handleGoToCollection} />
         <main className="relative z-10 flex items-center justify-between px-6 py-12 max-w-7xl mx-auto">
-          <HeroContent />
+          <HeroContent onNavigateToCollection={handleGoToCollection} />
           <AddBookCard onOpenModal={openModal} />
         </main>
       </div>
