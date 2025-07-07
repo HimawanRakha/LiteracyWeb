@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { X, ArrowRight, CircleDashed } from "lucide-react";
+import { X, ArrowRight, CircleDashed, Pointer } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ToggleSwitch from "@/components/literacy/AddBookModal/ToggleSwitch";
 import UploadStep from "@/components/literacy/AddBookModal/UploadStep";
@@ -31,7 +31,7 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ isOpen, onClose, onAddBook 
   // Langkah 1: Gunakan Gemini untuk mendapatkan Judul & Penulis yang akurat dari gambar.
   const getCoverInfoWithGemini = async (base64ImageData: string) => {
     setLoadingMessage("Menganalisis sampul buku...");
-    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_BOOKS_API_KEY || ""; // Disediakan oleh environment Canvas
+    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_BOOKS_API_KEY || "";
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
     const payload = {
@@ -206,11 +206,11 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ isOpen, onClose, onAddBook 
 
         <div className="flex justify-end pt-4 mt-4 border-t">
           {currentStep === "upload" ? (
-            <Button className="bg-green-700 hover:bg-green-800 text-white px-6 py-2 rounded-full" disabled>
+            <Button className="bg-green-700 hover:bg-green-800 text-white px-6 py-2 rounded-full" disabled style={{ cursor: "pointer" }}>
               Next <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
           ) : (
-            <Button className="bg-green-700 hover:bg-green-800 text-white px-8 py-3 rounded-full" disabled={!uploadedImage || !title || !author} onClick={handleFinish}>
+            <Button className="bg-green-700 hover:bg-green-800 text-white px-8 py-3 rounded-full" disabled={!uploadedImage || !title || !author} onClick={handleFinish} style={{ cursor: "pointer" }}>
               Finish
             </Button>
           )}
